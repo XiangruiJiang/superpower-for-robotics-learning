@@ -177,4 +177,4 @@ MIT License - see LICENSE file for details
 ## Support
 
 - **Issues**: https://github.com/XiangruiJiang/superpower-for-robotics-learning/issues
-- **Marketplace**: https://github.com/XiangruiJiang/superpower-for-robotics-learning-marketplace
+- **Marketplace config**: included in this repository via `.claude-plugin/marketplace.json`
