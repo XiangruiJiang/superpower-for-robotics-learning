@@ -1,0 +1,13 @@
+{
+  "name": "superpowers",
+  "description": "Superpower for Robotics Learning skills library for Claude Code: TDD, debugging, collaboration patterns, and proven techniques",
+  "version": "5.0.2",
+  "author": {
+    "name": "Jesse Vincent",
+    "email": "jesse@fsck.com"
+  },
+  "homepage": "https://github.com/XiangruiJiang/superpower-for-robotics-learning",
+  "repository": "https://github.com/XiangruiJiang/superpower-for-robotics-learning",
+  "license": "MIT",
+  "keywords": ["skills", "tdd", "debugging", "collaboration", "best-practices", "workflows"]
+}
