@@ -1,180 +1,97 @@
 # Superpower for Robotics Learning
 
-Superpower for Robotics Learning is a complete software development workflow for your coding agents, built on top of a set of composable "skills" and some initial instructions that make sure your agent uses them.
+Superpower for Robotics Learning is a **Codex-first skill library** for robotics learning, reinforcement learning, and simulation-heavy development workflows.
+
+It is based on the Superpowers workflow, but this repository is tailored for teams that need stronger discipline around:
+- robotics / RL planning and review loops
+- simulation and training verification instead of code-only claims
+- keeping local planning artifacts out of git commits
+- safer completion workflows before deployment or merge
+
+## What makes this repo different
+
+Compared with the original general-purpose Superpowers setup, this version is adapted for our robotics learning workflow:
+
+- **Codex-focused installation**: the README only documents the Codex path we actually use.
+- **RL / simulation verification**: skills explicitly require small training or rollout evidence, log inspection, and checkpoint play when that is the honest proof.
+- **Local-only planning artifacts**: specs and plans are written to local memory paths instead of being committed by default.
+- **Cleaner git hygiene**: workflows check staged contents so local-only plans or test artifacts do not slip into commits.
+- **Safer completion rules**: finalization emphasizes fresh verification evidence before claiming success.
 
 ## How it works
 
-It starts from the moment you fire up your coding agent. As soon as it sees that you're building something, it *doesn't* just jump into trying to write code. Instead, it steps back and asks you what you're really trying to do. 
+The workflow is built around a small set of cooperating skills:
 
-Once it's teased a spec out of the conversation, it shows it to you in chunks short enough to actually read and digest. 
+1. **brainstorming** — refine the task and confirm the design before implementation.
+2. **writing-plans** — turn the approved design into small executable steps.
+3. **subagent-driven-development** / **executing-plans** — carry out the plan with review checkpoints.
+4. **test-driven-development** — require a failing check before code changes.
+5. **systematic-debugging** — debug with a structured root-cause process instead of guessing.
+6. **verification-before-completion** — require fresh evidence before any success claim.
+7. **finishing-a-development-branch** — finish work only after verification and clean staging.
 
-After you've signed off on the design, your agent puts together an implementation plan that's clear enough for an enthusiastic junior engineer with poor taste, no judgement, no project context, and an aversion to testing to follow. It emphasizes true red/green TDD, YAGNI (You Aren't Gonna Need It), and DRY. 
+For robotics learning tasks, the intended proof is often not a unit test alone. This repo biases the workflow toward short train/rollout checks, runtime metrics, and observed behavior when those are the honest validation path.
 
-Next up, once you say "go", it launches a *subagent-driven-development* process, having agents work through each engineering task, inspecting and reviewing their work, and continuing forward. It's not uncommon for Claude to be able to work autonomously for a couple hours at a time without deviating from the plan you put together.
+## Installation for Codex
 
-There's a bunch more to it, but that's the core of the system. And because the skills trigger automatically, you don't need to do anything special. Your coding agent just has Superpower for Robotics Learning.
-
-
-## Sponsorship
-
-If Superpower for Robotics Learning has helped you do stuff that makes money and you are so inclined, I'd greatly appreciate it if you'd consider [sponsoring my opensource work](https://github.com/sponsors/obra).
-
-Thanks! 
-
-- Jesse
-
-
-## Installation
-
-**Note:** Installation differs by platform. Claude Code or Cursor have built-in plugin marketplaces. Codex and OpenCode require manual setup.
-
-### Claude Code Official Marketplace
-
-Superpower for Robotics Learning is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)
-
-Install the plugin from Claude marketplace:
+### 1. Clone the repository
 
 ```bash
-/plugin install superpowers@claude-plugins-official
+git clone https://github.com/XiangruiJiang/superpower-for-robotics-learning.git ~/.codex/superpower-for-robotics-learning
 ```
 
-### Claude Code (via Plugin Marketplace)
+### 2. Expose the skills to Codex
 
-In Claude Code, register the marketplace first:
+For compatibility with the existing skill namespace, keep the local alias name `superpowers`:
 
 ```bash
-/plugin marketplace add XiangruiJiang/superpower-for-robotics-learning
+mkdir -p ~/.agents/skills
+ln -s ~/.codex/superpower-for-robotics-learning/skills ~/.agents/skills/superpowers
 ```
 
-Then install the plugin from this marketplace:
+### 3. Restart Codex
+
+Quit and relaunch Codex so it re-discovers the skill directory.
+
+## Verify installation
 
 ```bash
-/plugin install superpowers@superpowers-dev
+ls -la ~/.agents/skills/superpowers
 ```
 
-### Cursor (via Plugin Marketplace)
-
-In Cursor Agent chat, install from marketplace:
+You should see a symlink pointing to:
 
 ```text
-/add-plugin superpowers
+~/.codex/superpower-for-robotics-learning/skills
 ```
 
-or search for "superpowers" in the plugin marketplace.
-
-### Codex
-
-Tell Codex:
-
-```
-Fetch and follow instructions from https://raw.githubusercontent.com/XiangruiJiang/superpower-for-robotics-learning/refs/heads/main/.codex/INSTALL.md
-```
-
-**Detailed docs:** [docs/README.codex.md](docs/README.codex.md)
-
-### OpenCode
-
-Tell OpenCode:
-
-```
-Fetch and follow instructions from https://raw.githubusercontent.com/XiangruiJiang/superpower-for-robotics-learning/refs/heads/main/.opencode/INSTALL.md
-```
-
-**Detailed docs:** [docs/README.opencode.md](docs/README.opencode.md)
-
-### Gemini CLI
-
-```bash
-gemini extensions install https://github.com/XiangruiJiang/superpower-for-robotics-learning
-```
-
-To update:
-
-```bash
-gemini extensions update superpowers
-```
-
-### Verify Installation
-
-Start a new session in your chosen platform and ask for something that should trigger a skill (for example, "help me plan this feature" or "let's debug this issue"). The agent should automatically invoke the relevant superpowers skill.
-
-## The Basic Workflow
-
-1. **brainstorming** - Activates before writing code. Refines rough ideas through questions, explores alternatives, presents design in sections for validation. Saves design document.
-
-2. **using-git-worktrees** - Activates after design approval. Creates isolated workspace on new branch, runs project setup, verifies clean test baseline.
-
-3. **writing-plans** - Activates with approved design. Breaks work into bite-sized tasks (2-5 minutes each). Every task has exact file paths, complete code, verification steps.
-
-4. **subagent-driven-development** or **executing-plans** - Activates with plan. Dispatches fresh subagent per task with two-stage review (spec compliance, then code quality), or executes in batches with human checkpoints.
-
-5. **test-driven-development** - Activates during implementation. Enforces RED-GREEN-REFACTOR: write failing test, watch it fail, write minimal code, watch it pass, commit. Deletes code written before tests.
-
-6. **requesting-code-review** - Activates between tasks. Reviews against plan, reports issues by severity. Critical issues block progress.
-
-7. **finishing-a-development-branch** - Activates when tasks complete. Verifies tests, presents options (merge/PR/keep/discard), cleans up worktree.
-
-**The agent checks for relevant skills before any task.** Mandatory workflows, not suggestions.
-
-## What's Inside
-
-### Skills Library
-
-**Testing**
-- **test-driven-development** - RED-GREEN-REFACTOR cycle (includes testing anti-patterns reference)
-
-**Debugging**
-- **systematic-debugging** - 4-phase root cause process (includes root-cause-tracing, defense-in-depth, condition-based-waiting techniques)
-- **verification-before-completion** - Ensure it's actually fixed
-
-**Collaboration** 
-- **brainstorming** - Socratic design refinement
-- **writing-plans** - Detailed implementation plans
-- **executing-plans** - Batch execution with checkpoints
-- **dispatching-parallel-agents** - Concurrent subagent workflows
-- **requesting-code-review** - Pre-review checklist
-- **receiving-code-review** - Responding to feedback
-- **using-git-worktrees** - Parallel development branches
-- **finishing-a-development-branch** - Merge/PR decision workflow
-- **subagent-driven-development** - Fast iteration with two-stage review (spec compliance, then code quality)
-
-**Meta**
-- **writing-skills** - Create new skills following best practices (includes testing methodology)
-- **using-superpowers** - Introduction to the skills system
-
-## Philosophy
-
-- **Test-Driven Development** - Write tests first, always
-- **Systematic over ad-hoc** - Process over guessing
-- **Complexity reduction** - Simplicity as primary goal
-- **Evidence over claims** - Verify before declaring success
-
-Read more: [Superpower for Robotics Learning for Claude Code](https://blog.fsck.com/2025/10/09/superpowers/)
-
-## Contributing
-
-Skills live directly in this repository. To contribute:
-
-1. Fork the repository
-2. Create a branch for your skill
-3. Follow the `writing-skills` skill for creating and testing new skills
-4. Submit a PR
-
-See `skills/writing-skills/SKILL.md` for the complete guide.
+Then start a new Codex session and ask it to do something that should trigger a skill, such as:
+- "help me plan this feature"
+- "use systematic-debugging on this failure"
+- "execute the implementation plan at ..."
 
 ## Updating
 
-Skills update automatically when you update the plugin:
-
 ```bash
-/plugin update superpowers
+cd ~/.codex/superpower-for-robotics-learning && git pull
 ```
+
+Because Codex reads through the symlink, updates take effect for new sessions after restart.
+
+## Repository layout
+
+- `skills/` — the skill library itself
+- `agents/` — reviewer / helper agent prompts
+- `commands/` — command shims and compatibility helpers
+- `docs/` — supporting documentation
+- `.codex/INSTALL.md` — Codex installation instructions
+
+## Notes
+
+- The public repository name is **Superpower for Robotics Learning**.
+- The local Codex skill alias remains **superpowers** for compatibility with existing references.
+- This repository is intended for **Codex usage first**, not as a cross-platform marketplace package.
 
 ## License
 
-MIT License - see LICENSE file for details
-
-## Support
-
-- **Issues**: https://github.com/XiangruiJiang/superpower-for-robotics-learning/issues
-- **Marketplace config**: included in this repository via `.claude-plugin/marketplace.json`
+MIT License - see `LICENSE`.
