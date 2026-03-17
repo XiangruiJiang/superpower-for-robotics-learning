@@ -47,7 +47,7 @@ Skip any step = lying, not verifying
 | Bug fixed | Test original symptom: passes | Code changed, assumed fixed |
 | Regression test works | Red-green cycle verified | Test passes once |
 | RL behavior improved | Fresh short GPU training or rollout logs + checkpoint play evidence + reported physical quantities | Static code inspection, stale logs, or "looks plausible" |
-| Commit contents are clean | `git diff --cached --name-only` excludes local-only spec docs, plan docs, and formal test artifacts | Assuming `git add .` staged the right files |
+| Commit contents are clean | `git diff --cached --name-only` excludes local-only `.codex-artifacts/` specs, plans, and formal test artifacts | Assuming `git add .` staged the right files |
 | Agent completed | VCS diff shows changes | Agent reports "success" |
 | Requirements met | Line-by-line checklist | Tests passing |
 
@@ -61,7 +61,7 @@ Skip any step = lying, not verifying
 - Thinking "just this once"
 - Tired and wanting work over
 - Claiming an RL or simulation change worked without fresh train/log/play evidence
-- Letting local-only planning docs or formal test artifacts stay staged for commit
+- Letting local-only `.codex-artifacts/` planning docs or formal test artifacts stay staged for commit
 - **ANY wording implying success without having run verification**
 
 ## Rationalization Prevention
@@ -111,7 +111,7 @@ Skip any step = lying, not verifying
 
 **Git hygiene:**
 ```
-✅ `git diff --cached --name-only` shows only deliverable files
+✅ `git diff --cached --name-only` shows only deliverable files (no `.codex-artifacts/` entries)
 ❌ `git add .` and assume staging is fine
 ```
 
@@ -127,7 +127,7 @@ When project behavior depends on learning dynamics, reward shaping, or physics, 
 
 ## Why This Matters
 
-From 24 failure memories:
+From 24 past failures:
 - your human partner said "I don't believe you" - trust broken
 - Undefined functions shipped - would crash
 - Missing requirements shipped - incomplete features

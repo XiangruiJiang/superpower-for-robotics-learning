@@ -14,7 +14,7 @@ Compared with the original general-purpose Superpowers setup, this version is ad
 
 - **Codex-focused installation**: the README only documents the Codex path we actually use.
 - **RL / simulation verification**: skills explicitly require small training or rollout evidence, log inspection, and checkpoint play when that is the honest proof.
-- **Local-only planning artifacts**: specs and plans are written to local memory paths instead of being committed by default.
+- **Project-local artifacts**: specs, plans, and local verification code live under project-local `.codex-artifacts/` paths and stay out of git by default.
 - **Cleaner git hygiene**: workflows check staged contents so local-only plans or test artifacts do not slip into commits.
 - **Safer completion rules**: finalization emphasizes fresh verification evidence before claiming success.
 

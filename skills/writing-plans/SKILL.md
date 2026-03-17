@@ -15,7 +15,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Context:** This should be run in a dedicated worktree (created by brainstorming skill).
 
-**Save plans to:** a non-git local planning path (for Codex, prefer `~/.codex/memories/superpowers/plans/YYYY-MM-DD-<feature-name>.md`)
+**Save plans to:** a non-git local planning path (for Codex, prefer `<project-root>/.codex-artifacts/plans/YYYY-MM-DD-<feature-name>.md`)
 - (User preferences for plan location override this default)
 - Do NOT commit planning docs to git unless your human partner explicitly asks
 
@@ -71,7 +71,7 @@ This structure informs the task decomposition. Each task should produce self-con
 **Files:**
 - Create: `exact/path/to/file.py`
 - Modify: `exact/path/to/existing.py:123-145`
-- Verification (local-only; formal test files never go into git): `tests/exact/path/to/test.py`
+- Verification (local-only; formal test files never go into git): `.codex-artifacts/tests/exact/path/to/test.py`
 
 - [ ] **Step 1: Write the failing verification artifact**
 
@@ -83,7 +83,7 @@ def test_specific_behavior():
 
 - [ ] **Step 2: Run it to verify it fails**
 
-Run: `pytest tests/path/test.py::test_name -v`
+Run: `pytest .codex-artifacts/tests/path/test.py::test_name -v`
 Expected: FAIL with "function not defined"
 
 - [ ] **Step 3: Write minimal implementation**
@@ -95,7 +95,7 @@ def function(input):
 
 - [ ] **Step 4: Run it again to verify it passes**
 
-Run: `pytest tests/path/test.py::test_name -v`
+Run: `pytest .codex-artifacts/tests/path/test.py::test_name -v`
 Expected: PASS
 
 - [ ] **Step 5: Stage deliverable files only**
@@ -128,7 +128,7 @@ When the project is reinforcement learning, robotics, or physics-driven:
 - Prefer verification steps that run the smallest meaningful GPU training or rollout command
 - Call out exactly which logs or metrics to inspect (reward, episode stats, terminations, NaNs, divergence)
 - Add a checkpoint play step and specify which physical quantities or behaviors must be reported back
-- Formal test files stay local-only; for RL projects, prefer runtime evidence when that is the honest proof
+- Formal test files stay local-only under `<project-root>/.codex-artifacts/tests/`; for RL projects, prefer runtime evidence when that is the honest proof
 
 ## Plan Review Loop
 

@@ -49,7 +49,7 @@ Implement fresh from the failing check. Period.
 Formal test files are local-only verification artifacts. Do not commit them to git:
 
 - You still need a failing check before production code
-- Use a local-only test file, scratch script, CLI probe, notebook, or runtime harness
+- Use a local-only test file, scratch script, CLI probe, notebook, or runtime harness. Preferred project-local location in Codex repos: `<project-root>/.codex-artifacts/tests/`
 - Keep it untracked or outside the commit
 - Before committing, verify `git diff --cached --name-only` does not include local-only tests or planning docs
 - Remove the artifact after verification if keeping it around would create repo noise
