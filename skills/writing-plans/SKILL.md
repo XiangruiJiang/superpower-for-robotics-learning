@@ -157,7 +157,7 @@ After saving the plan:
 
 **Execution path depends on harness capabilities:**
 
-**If harness has subagents (Claude Code, etc.):**
+**If Codex subagents are available:**
 - **REQUIRED:** Use superpowers:subagent-driven-development
 - Do NOT offer a choice - subagent-driven is the standard approach
 - Fresh subagent per task + two-stage review
